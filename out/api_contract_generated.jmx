@@ -1,0 +1,2667 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Identity API - Contract Tests" enabled="true">
+      <stringProp name="TestPlan.comments">Generated from contract-test-definition.yml</stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="protocol" elementType="Argument">
+            <stringProp name="Argument.name">protocol</stringProp>
+            <stringProp name="Argument.value">http</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">YAML var: protocol</stringProp>
+          </elementProp>
+          <elementProp name="host" elementType="Argument">
+            <stringProp name="Argument.name">host</stringProp>
+            <stringProp name="Argument.value">y2devwebappweotku7pzzbik.westeurope.cloudapp.azure.com</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">YAML var: host</stringProp>
+          </elementProp>
+          <elementProp name="port" elementType="Argument">
+            <stringProp name="Argument.name">port</stringProp>
+            <stringProp name="Argument.value"/>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">YAML var: port</stringProp>
+          </elementProp>
+          <elementProp name="basePath" elementType="Argument">
+            <stringProp name="Argument.name">basePath</stringProp>
+            <stringProp name="Argument.value">/Retail_25.0</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">YAML var: basePath</stringProp>
+          </elementProp>
+          <elementProp name="ALLOW_DESTRUCTIVE" elementType="Argument">
+            <stringProp name="Argument.name">ALLOW_DESTRUCTIVE</stringProp>
+            <stringProp name="Argument.value">false</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">YAML var: ALLOW_DESTRUCTIVE</stringProp>
+          </elementProp>
+          <elementProp name="token" elementType="Argument">
+            <stringProp name="Argument.name">token</stringProp>
+            <stringProp name="Argument.value">&lt;A_RENSEIGNER&gt;</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">Auth token</stringProp>
+          </elementProp>
+        </collectionProp>
+      </elementProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Contract Tests (Stateful)" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Global)" enabled="true">
+          <collectionProp name="HeaderManager.headers">
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Accept</stringProp>
+              <stringProp name="Header.value">application/json</stringProp>
+            </elementProp>
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Content-Type</stringProp>
+              <stringProp name="Header.value">application/json</stringProp>
+            </elementProp>
+          </collectionProp>
+        </HeaderManager>
+        <hashTree/>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Url management - Administrators - Create_or_update_an_environment" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="ACTION" enabled="true"/>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST Create_or_update_an_environment - Nominal Success" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Environments/${id}</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{
+  &quot;name&quot;: &quot;test_name&quot;,
+  &quot;services&quot;: []
+}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">200</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Check required fields" enabled="true">
+                <stringProp name="scriptLanguage">groovy</stringProp>
+                <stringProp name="script">import groovy.json.JsonSlurper
+
+def __getByPath(def obj, String jsonPath) {
+  if (obj == null) return null
+  if (jsonPath == null) return null
+  def p = jsonPath.trim()
+  if (!p.startsWith('$.')) return null
+  // On utilise /\./ pour dire &quot;le caractère point littéral&quot; en Groovy
+  def parts = p.substring(2).split(/\./)
+  def cur = obj
+  for (def part : parts) {
+    if (cur == null) return null
+    if (cur instanceof Map) {
+      cur = cur.get(part)
+    } else {
+      return null
+    }
+  }
+  return cur
+}
+
+def s = prev.getResponseDataAsString()
+assert s != null &amp;&amp; s.trim().length() &gt; 0 : 'Empty response body'
+def json = new JsonSlurper().parseText(s)
+assert __getByPath(json, '$.id') != null : 'Missing required field: $.id'
+assert __getByPath(json, '$.services') != null : 'Missing required field: $.services'</stringProp>
+              </JSR223Assertion>
+              <hashTree/>
+              <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Validate field types" enabled="true">
+                <stringProp name="scriptLanguage">groovy</stringProp>
+                <stringProp name="script">import groovy.json.JsonSlurper
+
+def __getByPath(def obj, String jsonPath) {
+  if (obj == null) return null
+  if (jsonPath == null) return null
+  def p = jsonPath.trim()
+  if (!p.startsWith('$.')) return null
+  // On utilise /\./ pour dire &quot;le caractère point littéral&quot; en Groovy
+  def parts = p.substring(2).split(/\./)
+  def cur = obj
+  for (def part : parts) {
+    if (cur == null) return null
+    if (cur instanceof Map) {
+      cur = cur.get(part)
+    } else {
+      return null
+    }
+  }
+  return cur
+}
+
+def s = prev.getResponseDataAsString()
+assert s != null &amp;&amp; s.trim().length() &gt; 0 : 'Empty response body'
+def json = new JsonSlurper().parseText(s)
+
+def val_services = __getByPath(json, '$.services')
+if (val_services != null) {
+  assert val_services instanceof List : 'Field $.services should be array, got ' + val_services.getClass().getName()
+}
+def val_id = __getByPath(json, '$.id')
+if (val_id != null) {
+  assert val_id instanceof String : 'Field $.id should be string, got ' + val_id.getClass().getName()
+}</stringProp>
+              </JSR223Assertion>
+              <hashTree/>
+              <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Validate nested objects (array items)" enabled="true">
+                <stringProp name="scriptLanguage">groovy</stringProp>
+                <stringProp name="script">import groovy.json.JsonSlurper
+
+def __getByPath(def obj, String jsonPath) {
+  if (obj == null) return null
+  if (jsonPath == null) return null
+  def p = jsonPath.trim()
+  if (!p.startsWith('$.')) return null
+  // On utilise /\./ pour dire &quot;le caractère point littéral&quot; en Groovy
+  def parts = p.substring(2).split(/\./)
+  def cur = obj
+  for (def part : parts) {
+    if (cur == null) return null
+    if (cur instanceof Map) {
+      cur = cur.get(part)
+    } else {
+      return null
+    }
+  }
+  return cur
+}
+
+def s = prev.getResponseDataAsString()
+assert s != null &amp;&amp; s.trim().length() &gt; 0 : 'Empty response body'
+def json = new JsonSlurper().parseText(s)
+
+def array_services = __getByPath(json, '$.services')
+assert array_services instanceof List : 'Field $.services should be an array'
+
+// Validate each item in $.services
+if (array_services.size() &gt; 0) {
+  array_services.eachWithIndex { item, idx -&gt;
+    if (item.containsKey('properties') &amp;&amp; item['properties'] != null) {
+      assert item['properties'] instanceof Map : '$.services[' + idx + '].properties should be object, got ' + item['properties'].getClass().getName()
+    }
+    if (item.containsKey('id') &amp;&amp; item['id'] != null) {
+      assert item['id'] instanceof String : '$.services[' + idx + '].id should be string, got ' + item['id'].getClass().getName()
+    }
+  }
+}
+</stringProp>
+              </JSR223Assertion>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST Create_or_update_an_environment - Unauthorized access (401)" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Environments/${id}</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{
+  &quot;name&quot;: &quot;test_name&quot;,
+  &quot;services&quot;: []
+}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">401</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST Create_or_update_an_environment - Forbidden access (403)" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Environments/${id}</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{
+  &quot;name&quot;: &quot;test_name&quot;,
+  &quot;services&quot;: []
+}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">403</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+        </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Url management - Administrators - Delete_an_environment" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="ACTION" enabled="true"/>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="DELETE Delete_an_environment - Nominal Success" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Environments/${id}</stringProp>
+              <stringProp name="HTTPSampler.method">DELETE</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">204</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="DELETE Delete_an_environment - Unauthorized access (401)" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Environments/${id}</stringProp>
+              <stringProp name="HTTPSampler.method">DELETE</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">401</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="DELETE Delete_an_environment - Forbidden access (403)" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Environments/${id}</stringProp>
+              <stringProp name="HTTPSampler.method">DELETE</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">403</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+        </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Url management - Readers - Retrieves_an_environment_by_its_identifier" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="ACTION" enabled="true"/>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET Retrieves_an_environment_by_its_identifier - Nominal Success" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Environments/${id}</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">200</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Check required fields" enabled="true">
+                <stringProp name="scriptLanguage">groovy</stringProp>
+                <stringProp name="script">import groovy.json.JsonSlurper
+
+def __getByPath(def obj, String jsonPath) {
+  if (obj == null) return null
+  if (jsonPath == null) return null
+  def p = jsonPath.trim()
+  if (!p.startsWith('$.')) return null
+  // On utilise /\./ pour dire &quot;le caractère point littéral&quot; en Groovy
+  def parts = p.substring(2).split(/\./)
+  def cur = obj
+  for (def part : parts) {
+    if (cur == null) return null
+    if (cur instanceof Map) {
+      cur = cur.get(part)
+    } else {
+      return null
+    }
+  }
+  return cur
+}
+
+def s = prev.getResponseDataAsString()
+assert s != null &amp;&amp; s.trim().length() &gt; 0 : 'Empty response body'
+def json = new JsonSlurper().parseText(s)
+assert __getByPath(json, '$.id') != null : 'Missing required field: $.id'
+assert __getByPath(json, '$.services') != null : 'Missing required field: $.services'</stringProp>
+              </JSR223Assertion>
+              <hashTree/>
+              <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Validate field types" enabled="true">
+                <stringProp name="scriptLanguage">groovy</stringProp>
+                <stringProp name="script">import groovy.json.JsonSlurper
+
+def __getByPath(def obj, String jsonPath) {
+  if (obj == null) return null
+  if (jsonPath == null) return null
+  def p = jsonPath.trim()
+  if (!p.startsWith('$.')) return null
+  // On utilise /\./ pour dire &quot;le caractère point littéral&quot; en Groovy
+  def parts = p.substring(2).split(/\./)
+  def cur = obj
+  for (def part : parts) {
+    if (cur == null) return null
+    if (cur instanceof Map) {
+      cur = cur.get(part)
+    } else {
+      return null
+    }
+  }
+  return cur
+}
+
+def s = prev.getResponseDataAsString()
+assert s != null &amp;&amp; s.trim().length() &gt; 0 : 'Empty response body'
+def json = new JsonSlurper().parseText(s)
+
+def val_services = __getByPath(json, '$.services')
+if (val_services != null) {
+  assert val_services instanceof List : 'Field $.services should be array, got ' + val_services.getClass().getName()
+}
+def val_id = __getByPath(json, '$.id')
+if (val_id != null) {
+  assert val_id instanceof String : 'Field $.id should be string, got ' + val_id.getClass().getName()
+}</stringProp>
+              </JSR223Assertion>
+              <hashTree/>
+              <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Validate nested objects (array items)" enabled="true">
+                <stringProp name="scriptLanguage">groovy</stringProp>
+                <stringProp name="script">import groovy.json.JsonSlurper
+
+def __getByPath(def obj, String jsonPath) {
+  if (obj == null) return null
+  if (jsonPath == null) return null
+  def p = jsonPath.trim()
+  if (!p.startsWith('$.')) return null
+  // On utilise /\./ pour dire &quot;le caractère point littéral&quot; en Groovy
+  def parts = p.substring(2).split(/\./)
+  def cur = obj
+  for (def part : parts) {
+    if (cur == null) return null
+    if (cur instanceof Map) {
+      cur = cur.get(part)
+    } else {
+      return null
+    }
+  }
+  return cur
+}
+
+def s = prev.getResponseDataAsString()
+assert s != null &amp;&amp; s.trim().length() &gt; 0 : 'Empty response body'
+def json = new JsonSlurper().parseText(s)
+
+def array_services = __getByPath(json, '$.services')
+assert array_services instanceof List : 'Field $.services should be an array'
+
+// Validate each item in $.services
+if (array_services.size() &gt; 0) {
+  array_services.eachWithIndex { item, idx -&gt;
+    if (item.containsKey('properties') &amp;&amp; item['properties'] != null) {
+      assert item['properties'] instanceof Map : '$.services[' + idx + '].properties should be object, got ' + item['properties'].getClass().getName()
+    }
+    if (item.containsKey('id') &amp;&amp; item['id'] != null) {
+      assert item['id'] instanceof String : '$.services[' + idx + '].id should be string, got ' + item['id'].getClass().getName()
+    }
+  }
+}
+</stringProp>
+              </JSR223Assertion>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET Retrieves_an_environment_by_its_identifier - Unauthorized access (401)" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Environments/${id}</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">401</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET Retrieves_an_environment_by_its_identifier - Forbidden access (403)" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Environments/${id}</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">403</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET Retrieves_an_environment_by_its_identifier - Environment not found (404)" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Environments/${id}</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">404</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+        </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Url management - Administrators - Delete_a_service_in_an_environment" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="ACTION" enabled="true"/>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="DELETE Delete_a_service_in_an_environment - Nominal Success" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Environments/${environmentId}/services/${serviceId}</stringProp>
+              <stringProp name="HTTPSampler.method">DELETE</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">204</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="DELETE Delete_a_service_in_an_environment - Unauthorized access (401)" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Environments/${environmentId}/services/${serviceId}</stringProp>
+              <stringProp name="HTTPSampler.method">DELETE</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">401</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="DELETE Delete_a_service_in_an_environment - Forbidden access (403)" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Environments/${environmentId}/services/${serviceId}</stringProp>
+              <stringProp name="HTTPSampler.method">DELETE</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">403</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+        </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Url management - Readers - Retrieves_a_service_associated_with_an_environment" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="ACTION" enabled="true"/>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET Retrieves_a_service_associated_with_an_environment - Nominal Success" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Environments/${environmentId}/services/${serviceId}</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">200</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Check required fields" enabled="true">
+                <stringProp name="scriptLanguage">groovy</stringProp>
+                <stringProp name="script">import groovy.json.JsonSlurper
+
+def __getByPath(def obj, String jsonPath) {
+  if (obj == null) return null
+  if (jsonPath == null) return null
+  def p = jsonPath.trim()
+  if (!p.startsWith('$.')) return null
+  // On utilise /\./ pour dire &quot;le caractère point littéral&quot; en Groovy
+  def parts = p.substring(2).split(/\./)
+  def cur = obj
+  for (def part : parts) {
+    if (cur == null) return null
+    if (cur instanceof Map) {
+      cur = cur.get(part)
+    } else {
+      return null
+    }
+  }
+  return cur
+}
+
+def s = prev.getResponseDataAsString()
+assert s != null &amp;&amp; s.trim().length() &gt; 0 : 'Empty response body'
+def json = new JsonSlurper().parseText(s)
+assert __getByPath(json, '$.id') != null : 'Missing required field: $.id'
+assert __getByPath(json, '$.properties') != null : 'Missing required field: $.properties'</stringProp>
+              </JSR223Assertion>
+              <hashTree/>
+              <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Validate field types" enabled="true">
+                <stringProp name="scriptLanguage">groovy</stringProp>
+                <stringProp name="script">import groovy.json.JsonSlurper
+
+def __getByPath(def obj, String jsonPath) {
+  if (obj == null) return null
+  if (jsonPath == null) return null
+  def p = jsonPath.trim()
+  if (!p.startsWith('$.')) return null
+  // On utilise /\./ pour dire &quot;le caractère point littéral&quot; en Groovy
+  def parts = p.substring(2).split(/\./)
+  def cur = obj
+  for (def part : parts) {
+    if (cur == null) return null
+    if (cur instanceof Map) {
+      cur = cur.get(part)
+    } else {
+      return null
+    }
+  }
+  return cur
+}
+
+def s = prev.getResponseDataAsString()
+assert s != null &amp;&amp; s.trim().length() &gt; 0 : 'Empty response body'
+def json = new JsonSlurper().parseText(s)
+
+def val_properties = __getByPath(json, '$.properties')
+if (val_properties != null) {
+  assert val_properties instanceof Map : 'Field $.properties should be object, got ' + val_properties.getClass().getName()
+}
+def val_id = __getByPath(json, '$.id')
+if (val_id != null) {
+  assert val_id instanceof String : 'Field $.id should be string, got ' + val_id.getClass().getName()
+}</stringProp>
+              </JSR223Assertion>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET Retrieves_a_service_associated_with_an_environment - Unauthorized access (401)" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Environments/${environmentId}/services/${serviceId}</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">401</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET Retrieves_a_service_associated_with_an_environment - Forbidden access (403)" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Environments/${environmentId}/services/${serviceId}</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">403</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET Retrieves_a_service_associated_with_an_environment - Environment or service not found (404)" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Environments/${environmentId}/services/${serviceId}</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">404</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+        </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Url management - Writers - Create_or_update_a_service_in_an_environment" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="ACTION" enabled="true"/>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="PUT Create_or_update_a_service_in_an_environment - Nominal Success" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Environments/${environmentId}/services/${serviceId}</stringProp>
+              <stringProp name="HTTPSampler.method">PUT</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{
+  &quot;properties&quot;: {}
+}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">200</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Check required fields" enabled="true">
+                <stringProp name="scriptLanguage">groovy</stringProp>
+                <stringProp name="script">import groovy.json.JsonSlurper
+
+def __getByPath(def obj, String jsonPath) {
+  if (obj == null) return null
+  if (jsonPath == null) return null
+  def p = jsonPath.trim()
+  if (!p.startsWith('$.')) return null
+  // On utilise /\./ pour dire &quot;le caractère point littéral&quot; en Groovy
+  def parts = p.substring(2).split(/\./)
+  def cur = obj
+  for (def part : parts) {
+    if (cur == null) return null
+    if (cur instanceof Map) {
+      cur = cur.get(part)
+    } else {
+      return null
+    }
+  }
+  return cur
+}
+
+def s = prev.getResponseDataAsString()
+assert s != null &amp;&amp; s.trim().length() &gt; 0 : 'Empty response body'
+def json = new JsonSlurper().parseText(s)
+assert __getByPath(json, '$.id') != null : 'Missing required field: $.id'
+assert __getByPath(json, '$.services') != null : 'Missing required field: $.services'</stringProp>
+              </JSR223Assertion>
+              <hashTree/>
+              <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Validate field types" enabled="true">
+                <stringProp name="scriptLanguage">groovy</stringProp>
+                <stringProp name="script">import groovy.json.JsonSlurper
+
+def __getByPath(def obj, String jsonPath) {
+  if (obj == null) return null
+  if (jsonPath == null) return null
+  def p = jsonPath.trim()
+  if (!p.startsWith('$.')) return null
+  // On utilise /\./ pour dire &quot;le caractère point littéral&quot; en Groovy
+  def parts = p.substring(2).split(/\./)
+  def cur = obj
+  for (def part : parts) {
+    if (cur == null) return null
+    if (cur instanceof Map) {
+      cur = cur.get(part)
+    } else {
+      return null
+    }
+  }
+  return cur
+}
+
+def s = prev.getResponseDataAsString()
+assert s != null &amp;&amp; s.trim().length() &gt; 0 : 'Empty response body'
+def json = new JsonSlurper().parseText(s)
+
+def val_services = __getByPath(json, '$.services')
+if (val_services != null) {
+  assert val_services instanceof List : 'Field $.services should be array, got ' + val_services.getClass().getName()
+}
+def val_id = __getByPath(json, '$.id')
+if (val_id != null) {
+  assert val_id instanceof String : 'Field $.id should be string, got ' + val_id.getClass().getName()
+}</stringProp>
+              </JSR223Assertion>
+              <hashTree/>
+              <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Validate nested objects (array items)" enabled="true">
+                <stringProp name="scriptLanguage">groovy</stringProp>
+                <stringProp name="script">import groovy.json.JsonSlurper
+
+def __getByPath(def obj, String jsonPath) {
+  if (obj == null) return null
+  if (jsonPath == null) return null
+  def p = jsonPath.trim()
+  if (!p.startsWith('$.')) return null
+  // On utilise /\./ pour dire &quot;le caractère point littéral&quot; en Groovy
+  def parts = p.substring(2).split(/\./)
+  def cur = obj
+  for (def part : parts) {
+    if (cur == null) return null
+    if (cur instanceof Map) {
+      cur = cur.get(part)
+    } else {
+      return null
+    }
+  }
+  return cur
+}
+
+def s = prev.getResponseDataAsString()
+assert s != null &amp;&amp; s.trim().length() &gt; 0 : 'Empty response body'
+def json = new JsonSlurper().parseText(s)
+
+def array_services = __getByPath(json, '$.services')
+assert array_services instanceof List : 'Field $.services should be an array'
+
+// Validate each item in $.services
+if (array_services.size() &gt; 0) {
+  array_services.eachWithIndex { item, idx -&gt;
+    if (item.containsKey('properties') &amp;&amp; item['properties'] != null) {
+      assert item['properties'] instanceof Map : '$.services[' + idx + '].properties should be object, got ' + item['properties'].getClass().getName()
+    }
+    if (item.containsKey('id') &amp;&amp; item['id'] != null) {
+      assert item['id'] instanceof String : '$.services[' + idx + '].id should be string, got ' + item['id'].getClass().getName()
+    }
+  }
+}
+</stringProp>
+              </JSR223Assertion>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="PUT Create_or_update_a_service_in_an_environment - Unauthorized access (401)" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Environments/${environmentId}/services/${serviceId}</stringProp>
+              <stringProp name="HTTPSampler.method">PUT</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{
+  &quot;properties&quot;: {}
+}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">401</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="PUT Create_or_update_a_service_in_an_environment - Forbidden access (403)" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Environments/${environmentId}/services/${serviceId}</stringProp>
+              <stringProp name="HTTPSampler.method">PUT</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{
+  &quot;properties&quot;: {}
+}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">403</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="PUT Create_or_update_a_service_in_an_environment - Environment not found (404)" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Environments/${environmentId}/services/${serviceId}</stringProp>
+              <stringProp name="HTTPSampler.method">PUT</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{
+  &quot;properties&quot;: {}
+}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">404</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+        </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Url management - Administrators - Delete_a_tenant" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="ACTION" enabled="true"/>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="DELETE Delete_a_tenant - Nominal Success" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Tenants/${id}</stringProp>
+              <stringProp name="HTTPSampler.method">DELETE</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">204</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="DELETE Delete_a_tenant - Unauthorized access (401)" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Tenants/${id}</stringProp>
+              <stringProp name="HTTPSampler.method">DELETE</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">401</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="DELETE Delete_a_tenant - Forbidden access (403)" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Tenants/${id}</stringProp>
+              <stringProp name="HTTPSampler.method">DELETE</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">403</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+        </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Url management - Readers - Retrieves_a_tenant_by_its_identifier" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="ACTION" enabled="true"/>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET Retrieves_a_tenant_by_its_identifier - Nominal Success" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Tenants/${id}</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">200</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Check required fields" enabled="true">
+                <stringProp name="scriptLanguage">groovy</stringProp>
+                <stringProp name="script">import groovy.json.JsonSlurper
+
+def __getByPath(def obj, String jsonPath) {
+  if (obj == null) return null
+  if (jsonPath == null) return null
+  def p = jsonPath.trim()
+  if (!p.startsWith('$.')) return null
+  // On utilise /\./ pour dire &quot;le caractère point littéral&quot; en Groovy
+  def parts = p.substring(2).split(/\./)
+  def cur = obj
+  for (def part : parts) {
+    if (cur == null) return null
+    if (cur instanceof Map) {
+      cur = cur.get(part)
+    } else {
+      return null
+    }
+  }
+  return cur
+}
+
+def s = prev.getResponseDataAsString()
+assert s != null &amp;&amp; s.trim().length() &gt; 0 : 'Empty response body'
+def json = new JsonSlurper().parseText(s)
+assert __getByPath(json, '$.id') != null : 'Missing required field: $.id'</stringProp>
+              </JSR223Assertion>
+              <hashTree/>
+              <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Validate field types" enabled="true">
+                <stringProp name="scriptLanguage">groovy</stringProp>
+                <stringProp name="script">import groovy.json.JsonSlurper
+
+def __getByPath(def obj, String jsonPath) {
+  if (obj == null) return null
+  if (jsonPath == null) return null
+  def p = jsonPath.trim()
+  if (!p.startsWith('$.')) return null
+  // On utilise /\./ pour dire &quot;le caractère point littéral&quot; en Groovy
+  def parts = p.substring(2).split(/\./)
+  def cur = obj
+  for (def part : parts) {
+    if (cur == null) return null
+    if (cur instanceof Map) {
+      cur = cur.get(part)
+    } else {
+      return null
+    }
+  }
+  return cur
+}
+
+def s = prev.getResponseDataAsString()
+assert s != null &amp;&amp; s.trim().length() &gt; 0 : 'Empty response body'
+def json = new JsonSlurper().parseText(s)
+
+def val_id = __getByPath(json, '$.id')
+if (val_id != null) {
+  assert val_id instanceof String : 'Field $.id should be string, got ' + val_id.getClass().getName()
+}</stringProp>
+              </JSR223Assertion>
+              <hashTree/>
+              <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Validate nested objects (array items)" enabled="true">
+                <stringProp name="scriptLanguage">groovy</stringProp>
+                <stringProp name="script">import groovy.json.JsonSlurper
+
+def __getByPath(def obj, String jsonPath) {
+  if (obj == null) return null
+  if (jsonPath == null) return null
+  def p = jsonPath.trim()
+  if (!p.startsWith('$.')) return null
+  // On utilise /\./ pour dire &quot;le caractère point littéral&quot; en Groovy
+  def parts = p.substring(2).split(/\./)
+  def cur = obj
+  for (def part : parts) {
+    if (cur == null) return null
+    if (cur instanceof Map) {
+      cur = cur.get(part)
+    } else {
+      return null
+    }
+  }
+  return cur
+}
+
+def s = prev.getResponseDataAsString()
+assert s != null &amp;&amp; s.trim().length() &gt; 0 : 'Empty response body'
+def json = new JsonSlurper().parseText(s)
+
+def array_services = __getByPath(json, '$.services')
+assert array_services instanceof List : 'Field $.services should be an array'
+
+// Validate each item in $.services
+if (array_services.size() &gt; 0) {
+  array_services.eachWithIndex { item, idx -&gt;
+    if (item.containsKey('properties') &amp;&amp; item['properties'] != null) {
+      assert item['properties'] instanceof Map : '$.services[' + idx + '].properties should be object, got ' + item['properties'].getClass().getName()
+    }
+    if (item.containsKey('id') &amp;&amp; item['id'] != null) {
+      assert item['id'] instanceof String : '$.services[' + idx + '].id should be string, got ' + item['id'].getClass().getName()
+    }
+  }
+}
+</stringProp>
+              </JSR223Assertion>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET Retrieves_a_tenant_by_its_identifier - Unauthorized access (401)" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Tenants/${id}</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">401</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET Retrieves_a_tenant_by_its_identifier - Forbidden access (403)" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Tenants/${id}</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">403</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET Retrieves_a_tenant_by_its_identifier - Environment not found (404)" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Tenants/${id}</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">404</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+        </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Url management - Writers - Create_or_update_a_tenant" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="ACTION" enabled="true"/>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="PUT Create_or_update_a_tenant - Nominal Success" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Tenants/${id}</stringProp>
+              <stringProp name="HTTPSampler.method">PUT</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{
+  &quot;environmentId&quot;: &quot;test_environmentId&quot;,
+  &quot;sicId&quot;: &quot;test_sicId&quot;,
+  &quot;name&quot;: &quot;test_name&quot;,
+  &quot;offer&quot;: &quot;test_offer&quot;,
+  &quot;services&quot;: []
+}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">200</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Check required fields" enabled="true">
+                <stringProp name="scriptLanguage">groovy</stringProp>
+                <stringProp name="script">import groovy.json.JsonSlurper
+
+def __getByPath(def obj, String jsonPath) {
+  if (obj == null) return null
+  if (jsonPath == null) return null
+  def p = jsonPath.trim()
+  if (!p.startsWith('$.')) return null
+  // On utilise /\./ pour dire &quot;le caractère point littéral&quot; en Groovy
+  def parts = p.substring(2).split(/\./)
+  def cur = obj
+  for (def part : parts) {
+    if (cur == null) return null
+    if (cur instanceof Map) {
+      cur = cur.get(part)
+    } else {
+      return null
+    }
+  }
+  return cur
+}
+
+def s = prev.getResponseDataAsString()
+assert s != null &amp;&amp; s.trim().length() &gt; 0 : 'Empty response body'
+def json = new JsonSlurper().parseText(s)
+assert __getByPath(json, '$.id') != null : 'Missing required field: $.id'</stringProp>
+              </JSR223Assertion>
+              <hashTree/>
+              <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Validate field types" enabled="true">
+                <stringProp name="scriptLanguage">groovy</stringProp>
+                <stringProp name="script">import groovy.json.JsonSlurper
+
+def __getByPath(def obj, String jsonPath) {
+  if (obj == null) return null
+  if (jsonPath == null) return null
+  def p = jsonPath.trim()
+  if (!p.startsWith('$.')) return null
+  // On utilise /\./ pour dire &quot;le caractère point littéral&quot; en Groovy
+  def parts = p.substring(2).split(/\./)
+  def cur = obj
+  for (def part : parts) {
+    if (cur == null) return null
+    if (cur instanceof Map) {
+      cur = cur.get(part)
+    } else {
+      return null
+    }
+  }
+  return cur
+}
+
+def s = prev.getResponseDataAsString()
+assert s != null &amp;&amp; s.trim().length() &gt; 0 : 'Empty response body'
+def json = new JsonSlurper().parseText(s)
+
+def val_id = __getByPath(json, '$.id')
+if (val_id != null) {
+  assert val_id instanceof String : 'Field $.id should be string, got ' + val_id.getClass().getName()
+}</stringProp>
+              </JSR223Assertion>
+              <hashTree/>
+              <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Validate nested objects (array items)" enabled="true">
+                <stringProp name="scriptLanguage">groovy</stringProp>
+                <stringProp name="script">import groovy.json.JsonSlurper
+
+def __getByPath(def obj, String jsonPath) {
+  if (obj == null) return null
+  if (jsonPath == null) return null
+  def p = jsonPath.trim()
+  if (!p.startsWith('$.')) return null
+  // On utilise /\./ pour dire &quot;le caractère point littéral&quot; en Groovy
+  def parts = p.substring(2).split(/\./)
+  def cur = obj
+  for (def part : parts) {
+    if (cur == null) return null
+    if (cur instanceof Map) {
+      cur = cur.get(part)
+    } else {
+      return null
+    }
+  }
+  return cur
+}
+
+def s = prev.getResponseDataAsString()
+assert s != null &amp;&amp; s.trim().length() &gt; 0 : 'Empty response body'
+def json = new JsonSlurper().parseText(s)
+
+def array_services = __getByPath(json, '$.services')
+assert array_services instanceof List : 'Field $.services should be an array'
+
+// Validate each item in $.services
+if (array_services.size() &gt; 0) {
+  array_services.eachWithIndex { item, idx -&gt;
+    if (item.containsKey('properties') &amp;&amp; item['properties'] != null) {
+      assert item['properties'] instanceof Map : '$.services[' + idx + '].properties should be object, got ' + item['properties'].getClass().getName()
+    }
+    if (item.containsKey('id') &amp;&amp; item['id'] != null) {
+      assert item['id'] instanceof String : '$.services[' + idx + '].id should be string, got ' + item['id'].getClass().getName()
+    }
+  }
+}
+</stringProp>
+              </JSR223Assertion>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="PUT Create_or_update_a_tenant - Unauthorized access (401)" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Tenants/${id}</stringProp>
+              <stringProp name="HTTPSampler.method">PUT</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{
+  &quot;environmentId&quot;: &quot;test_environmentId&quot;,
+  &quot;sicId&quot;: &quot;test_sicId&quot;,
+  &quot;name&quot;: &quot;test_name&quot;,
+  &quot;offer&quot;: &quot;test_offer&quot;,
+  &quot;services&quot;: []
+}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">401</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="PUT Create_or_update_a_tenant - Forbidden access (403)" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Tenants/${id}</stringProp>
+              <stringProp name="HTTPSampler.method">PUT</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{
+  &quot;environmentId&quot;: &quot;test_environmentId&quot;,
+  &quot;sicId&quot;: &quot;test_sicId&quot;,
+  &quot;name&quot;: &quot;test_name&quot;,
+  &quot;offer&quot;: &quot;test_offer&quot;,
+  &quot;services&quot;: []
+}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">403</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+        </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Url management - Readers - Retrieves_the_list_of_all_environments" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="ACTION" enabled="true"/>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET Retrieves_the_list_of_all_environments - Nominal Success" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Environments</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">200</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Check required fields" enabled="true">
+                <stringProp name="scriptLanguage">groovy</stringProp>
+                <stringProp name="script">import groovy.json.JsonSlurper
+
+def __getByPath(def obj, String jsonPath) {
+  if (obj == null) return null
+  if (jsonPath == null) return null
+  def p = jsonPath.trim()
+  if (!p.startsWith('$.')) return null
+  // On utilise /\./ pour dire &quot;le caractère point littéral&quot; en Groovy
+  def parts = p.substring(2).split(/\./)
+  def cur = obj
+  for (def part : parts) {
+    if (cur == null) return null
+    if (cur instanceof Map) {
+      cur = cur.get(part)
+    } else {
+      return null
+    }
+  }
+  return cur
+}
+
+def s = prev.getResponseDataAsString()
+assert s != null &amp;&amp; s.trim().length() &gt; 0 : 'Empty response body'
+def json = new JsonSlurper().parseText(s)
+assert __getByPath(json, '$.id') != null : 'Missing required field: $.id'
+assert __getByPath(json, '$.services') != null : 'Missing required field: $.services'</stringProp>
+              </JSR223Assertion>
+              <hashTree/>
+              <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Validate field types" enabled="true">
+                <stringProp name="scriptLanguage">groovy</stringProp>
+                <stringProp name="script">import groovy.json.JsonSlurper
+
+def __getByPath(def obj, String jsonPath) {
+  if (obj == null) return null
+  if (jsonPath == null) return null
+  def p = jsonPath.trim()
+  if (!p.startsWith('$.')) return null
+  // On utilise /\./ pour dire &quot;le caractère point littéral&quot; en Groovy
+  def parts = p.substring(2).split(/\./)
+  def cur = obj
+  for (def part : parts) {
+    if (cur == null) return null
+    if (cur instanceof Map) {
+      cur = cur.get(part)
+    } else {
+      return null
+    }
+  }
+  return cur
+}
+
+def s = prev.getResponseDataAsString()
+assert s != null &amp;&amp; s.trim().length() &gt; 0 : 'Empty response body'
+def json = new JsonSlurper().parseText(s)
+
+def val_services = __getByPath(json, '$.services')
+if (val_services != null) {
+  assert val_services instanceof List : 'Field $.services should be array, got ' + val_services.getClass().getName()
+}
+def val_id = __getByPath(json, '$.id')
+if (val_id != null) {
+  assert val_id instanceof String : 'Field $.id should be string, got ' + val_id.getClass().getName()
+}</stringProp>
+              </JSR223Assertion>
+              <hashTree/>
+              <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Validate nested objects (array items)" enabled="true">
+                <stringProp name="scriptLanguage">groovy</stringProp>
+                <stringProp name="script">import groovy.json.JsonSlurper
+
+def __getByPath(def obj, String jsonPath) {
+  if (obj == null) return null
+  if (jsonPath == null) return null
+  def p = jsonPath.trim()
+  if (!p.startsWith('$.')) return null
+  // On utilise /\./ pour dire &quot;le caractère point littéral&quot; en Groovy
+  def parts = p.substring(2).split(/\./)
+  def cur = obj
+  for (def part : parts) {
+    if (cur == null) return null
+    if (cur instanceof Map) {
+      cur = cur.get(part)
+    } else {
+      return null
+    }
+  }
+  return cur
+}
+
+def s = prev.getResponseDataAsString()
+assert s != null &amp;&amp; s.trim().length() &gt; 0 : 'Empty response body'
+def json = new JsonSlurper().parseText(s)
+
+def array_services = __getByPath(json, '$.services')
+assert array_services instanceof List : 'Field $.services should be an array'
+
+// Validate each item in $.services
+if (array_services.size() &gt; 0) {
+  array_services.eachWithIndex { item, idx -&gt;
+    if (item.containsKey('properties') &amp;&amp; item['properties'] != null) {
+      assert item['properties'] instanceof Map : '$.services[' + idx + '].properties should be object, got ' + item['properties'].getClass().getName()
+    }
+    if (item.containsKey('id') &amp;&amp; item['id'] != null) {
+      assert item['id'] instanceof String : '$.services[' + idx + '].id should be string, got ' + item['id'].getClass().getName()
+    }
+  }
+}
+</stringProp>
+              </JSR223Assertion>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET Retrieves_the_list_of_all_environments - Unauthorized Access (401)" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Environments</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">401</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET Retrieves_the_list_of_all_environments - Forbidden Access (403)" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Environments</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">403</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+        </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Url management - Readers - Retrieves_the_list_of_all_tenants" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="ACTION" enabled="true"/>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET Retrieves_the_list_of_all_tenants - Nominal Success" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Tenants</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">200</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Check required fields" enabled="true">
+                <stringProp name="scriptLanguage">groovy</stringProp>
+                <stringProp name="script">import groovy.json.JsonSlurper
+
+def __getByPath(def obj, String jsonPath) {
+  if (obj == null) return null
+  if (jsonPath == null) return null
+  def p = jsonPath.trim()
+  if (!p.startsWith('$.')) return null
+  // On utilise /\./ pour dire &quot;le caractère point littéral&quot; en Groovy
+  def parts = p.substring(2).split(/\./)
+  def cur = obj
+  for (def part : parts) {
+    if (cur == null) return null
+    if (cur instanceof Map) {
+      cur = cur.get(part)
+    } else {
+      return null
+    }
+  }
+  return cur
+}
+
+def s = prev.getResponseDataAsString()
+assert s != null &amp;&amp; s.trim().length() &gt; 0 : 'Empty response body'
+def json = new JsonSlurper().parseText(s)
+assert __getByPath(json, '$.id') != null : 'Missing required field: $.id'</stringProp>
+              </JSR223Assertion>
+              <hashTree/>
+              <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Validate field types" enabled="true">
+                <stringProp name="scriptLanguage">groovy</stringProp>
+                <stringProp name="script">import groovy.json.JsonSlurper
+
+def __getByPath(def obj, String jsonPath) {
+  if (obj == null) return null
+  if (jsonPath == null) return null
+  def p = jsonPath.trim()
+  if (!p.startsWith('$.')) return null
+  // On utilise /\./ pour dire &quot;le caractère point littéral&quot; en Groovy
+  def parts = p.substring(2).split(/\./)
+  def cur = obj
+  for (def part : parts) {
+    if (cur == null) return null
+    if (cur instanceof Map) {
+      cur = cur.get(part)
+    } else {
+      return null
+    }
+  }
+  return cur
+}
+
+def s = prev.getResponseDataAsString()
+assert s != null &amp;&amp; s.trim().length() &gt; 0 : 'Empty response body'
+def json = new JsonSlurper().parseText(s)
+
+def val_id = __getByPath(json, '$.id')
+if (val_id != null) {
+  assert val_id instanceof String : 'Field $.id should be string, got ' + val_id.getClass().getName()
+}</stringProp>
+              </JSR223Assertion>
+              <hashTree/>
+              <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Validate nested objects (array items)" enabled="true">
+                <stringProp name="scriptLanguage">groovy</stringProp>
+                <stringProp name="script">import groovy.json.JsonSlurper
+
+def __getByPath(def obj, String jsonPath) {
+  if (obj == null) return null
+  if (jsonPath == null) return null
+  def p = jsonPath.trim()
+  if (!p.startsWith('$.')) return null
+  // On utilise /\./ pour dire &quot;le caractère point littéral&quot; en Groovy
+  def parts = p.substring(2).split(/\./)
+  def cur = obj
+  for (def part : parts) {
+    if (cur == null) return null
+    if (cur instanceof Map) {
+      cur = cur.get(part)
+    } else {
+      return null
+    }
+  }
+  return cur
+}
+
+def s = prev.getResponseDataAsString()
+assert s != null &amp;&amp; s.trim().length() &gt; 0 : 'Empty response body'
+def json = new JsonSlurper().parseText(s)
+
+def array_services = __getByPath(json, '$.services')
+assert array_services instanceof List : 'Field $.services should be an array'
+
+// Validate each item in $.services
+if (array_services.size() &gt; 0) {
+  array_services.eachWithIndex { item, idx -&gt;
+    if (item.containsKey('properties') &amp;&amp; item['properties'] != null) {
+      assert item['properties'] instanceof Map : '$.services[' + idx + '].properties should be object, got ' + item['properties'].getClass().getName()
+    }
+    if (item.containsKey('id') &amp;&amp; item['id'] != null) {
+      assert item['id'] instanceof String : '$.services[' + idx + '].id should be string, got ' + item['id'].getClass().getName()
+    }
+  }
+}
+</stringProp>
+              </JSR223Assertion>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET Retrieves_the_list_of_all_tenants - Unauthorized Access (401)" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Tenants</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">401</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET Retrieves_the_list_of_all_tenants - Forbidden Access (403)" enabled="true">
+              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.path">${basePath}/api/v1/Tenants</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers (Local)" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Accept</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">403</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Content-Type Header" enabled="true">
+                <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="0">application/json</stringProp>
+                </collectionProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+        </hashTree>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
