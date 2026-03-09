@@ -1,0 +1,748 @@
+api_contract:
+  name: API Contract Tests (Auto-Generated - Ultimate)
+  description: Tests de contrat générés combinant validation sémantique profonde et
+    tests négatifs exhaustifs.
+  config:
+    base_url: ${protocol}://${host}${basePath}
+    auth_token: ${token}
+    default_headers:
+      Accept: application/json
+      Content-Type: application/json
+      Authorization: Bearer ${token}
+    variables:
+      protocol: http
+      host: y2devwebappweotku7pzzbik.westeurope.cloudapp.azure.com
+      port: ''
+      basePath: /Retail_25.0
+      ALLOW_DESTRUCTIVE: 'false'
+  sequences:
+  - name: Url management - Administrators - Create_or_update_an_environment
+    tags:
+    - contract
+    - api
+    - POST
+    prereqs:
+    - Authentification requise via token Bearer
+    steps:
+    - label: POST Create_or_update_an_environment - Nominal Success
+      phase: action
+      request:
+        method: POST
+        path: /api/v1/Environments/${id}
+        headers:
+          Accept: application/json
+          Content-Type: application/json
+        body: "{\n  \"services\": [\n    {\n      \"id\": \"test_1\",\n      \"properties\"\
+          : {}\n    }\n  ]\n}"
+      expect:
+        status: 200
+        content_type: application/json
+        contract_validation:
+          type: object
+          required: &id001
+          - id
+          - services
+          properties:
+            name:
+              type: string
+              nullable: true
+            services:
+              type: array
+              items:
+                type: object
+                required: &id002
+                - id
+                - properties
+                properties:
+                  properties:
+                    type: object
+                    required: []
+                  id:
+                    type: string
+                    minLength: 1
+            id:
+              type: string
+              minLength: 1
+    - label: POST Create_or_update_an_environment - Unauthorized access (401)
+      phase: action
+      request:
+        method: POST
+        path: /api/v1/Environments/${id}
+        headers:
+          Accept: application/json
+          Authorization: ''
+          Content-Type: application/json
+        body: "{\n  \"services\": [\n    {\n      \"id\": \"test_1\",\n      \"properties\"\
+          : {}\n    }\n  ]\n}"
+      expect:
+        status: 401
+        content_type: application/json
+    - label: POST Create_or_update_an_environment - Forbidden access (403)
+      phase: action
+      request:
+        method: POST
+        path: /api/v1/Environments/${id}
+        headers:
+          Accept: application/json
+          Content-Type: application/json
+        body: "{\n  \"services\": [\n    {\n      \"id\": \"test_1\",\n      \"properties\"\
+          : {}\n    }\n  ]\n}"
+      expect:
+        status: 403
+        content_type: application/json
+    - label: 'POST Create_or_update_an_environment - 400 Missing Body Field: services'
+      phase: action
+      request:
+        method: POST
+        path: /api/v1/Environments/${id}
+        headers:
+          Accept: application/json
+          Content-Type: application/json
+        body: '{}'
+      expect:
+        status: 400
+        content_type: application/json
+  - name: Url management - Administrators - Delete_an_environment
+    tags:
+    - contract
+    - api
+    - DELETE
+    prereqs:
+    - Authentification requise via token Bearer
+    steps:
+    - label: DELETE Delete_an_environment - Nominal Success
+      phase: action
+      request:
+        method: DELETE
+        path: /api/v1/Environments/${id}
+        headers:
+          Accept: application/json
+      expect:
+        status: 204
+        contract_validation:
+          type: integer
+    - label: DELETE Delete_an_environment - Unauthorized access (401)
+      phase: action
+      request:
+        method: DELETE
+        path: /api/v1/Environments/${id}
+        headers:
+          Accept: application/json
+          Authorization: ''
+      expect:
+        status: 401
+        content_type: application/json
+    - label: DELETE Delete_an_environment - Forbidden access (403)
+      phase: action
+      request:
+        method: DELETE
+        path: /api/v1/Environments/${id}
+        headers:
+          Accept: application/json
+      expect:
+        status: 403
+        content_type: application/json
+  - name: Url management - Readers - Retrieves_an_environment_by_its_identifier
+    tags:
+    - contract
+    - api
+    - GET
+    prereqs:
+    - Authentification requise via token Bearer
+    steps:
+    - label: GET Retrieves_an_environment_by_its_identifier - Nominal Success
+      phase: action
+      request:
+        method: GET
+        path: /api/v1/Environments/${id}
+        headers:
+          Accept: application/json
+      expect:
+        status: 200
+        content_type: application/json
+        contract_validation:
+          type: object
+          required: *id001
+          properties:
+            name:
+              type: string
+              nullable: true
+            services:
+              type: array
+              items:
+                type: object
+                required: *id002
+                properties:
+                  properties:
+                    type: object
+                    required: []
+                  id:
+                    type: string
+                    minLength: 1
+            id:
+              type: string
+              minLength: 1
+    - label: GET Retrieves_an_environment_by_its_identifier - Unauthorized access
+        (401)
+      phase: action
+      request:
+        method: GET
+        path: /api/v1/Environments/${id}
+        headers:
+          Accept: application/json
+          Authorization: ''
+      expect:
+        status: 401
+        content_type: application/json
+    - label: GET Retrieves_an_environment_by_its_identifier - Forbidden access (403)
+      phase: action
+      request:
+        method: GET
+        path: /api/v1/Environments/${id}
+        headers:
+          Accept: application/json
+      expect:
+        status: 403
+        content_type: application/json
+    - label: GET Retrieves_an_environment_by_its_identifier - Environment not found
+        (404)
+      phase: action
+      request:
+        method: GET
+        path: /api/v1/Environments/${id}
+        headers:
+          Accept: application/json
+      expect:
+        status: 404
+        content_type: application/json
+  - name: Url management - Administrators - Delete_a_service_in_an_environment
+    tags:
+    - contract
+    - api
+    - DELETE
+    prereqs:
+    - Authentification requise via token Bearer
+    steps:
+    - label: DELETE Delete_a_service_in_an_environment - Nominal Success
+      phase: action
+      request:
+        method: DELETE
+        path: /api/v1/Environments/${environmentId}/services/${serviceId}
+        headers:
+          Accept: application/json
+      expect:
+        status: 204
+        contract_validation:
+          type: integer
+    - label: DELETE Delete_a_service_in_an_environment - Unauthorized access (401)
+      phase: action
+      request:
+        method: DELETE
+        path: /api/v1/Environments/${environmentId}/services/${serviceId}
+        headers:
+          Accept: application/json
+          Authorization: ''
+      expect:
+        status: 401
+        content_type: application/json
+    - label: DELETE Delete_a_service_in_an_environment - Forbidden access (403)
+      phase: action
+      request:
+        method: DELETE
+        path: /api/v1/Environments/${environmentId}/services/${serviceId}
+        headers:
+          Accept: application/json
+      expect:
+        status: 403
+        content_type: application/json
+  - name: Url management - Readers - Retrieves_a_service_associated_with_an_environment
+    tags:
+    - contract
+    - api
+    - GET
+    prereqs:
+    - Authentification requise via token Bearer
+    steps:
+    - label: GET Retrieves_a_service_associated_with_an_environment - Nominal Success
+      phase: action
+      request:
+        method: GET
+        path: /api/v1/Environments/${environmentId}/services/${serviceId}
+        headers:
+          Accept: application/json
+      expect:
+        status: 200
+        content_type: application/json
+        contract_validation:
+          type: object
+          required: *id002
+          properties:
+            properties:
+              type: object
+              required: []
+            id:
+              type: string
+              minLength: 1
+    - label: GET Retrieves_a_service_associated_with_an_environment - Unauthorized
+        access (401)
+      phase: action
+      request:
+        method: GET
+        path: /api/v1/Environments/${environmentId}/services/${serviceId}
+        headers:
+          Accept: application/json
+          Authorization: ''
+      expect:
+        status: 401
+        content_type: application/json
+    - label: GET Retrieves_a_service_associated_with_an_environment - Forbidden access
+        (403)
+      phase: action
+      request:
+        method: GET
+        path: /api/v1/Environments/${environmentId}/services/${serviceId}
+        headers:
+          Accept: application/json
+      expect:
+        status: 403
+        content_type: application/json
+    - label: GET Retrieves_a_service_associated_with_an_environment - Environment
+        or service not found (404)
+      phase: action
+      request:
+        method: GET
+        path: /api/v1/Environments/${environmentId}/services/${serviceId}
+        headers:
+          Accept: application/json
+      expect:
+        status: 404
+        content_type: application/json
+  - name: Url management - Writers - Create_or_update_a_service_in_an_environment
+    tags:
+    - contract
+    - api
+    - PUT
+    prereqs:
+    - Authentification requise via token Bearer
+    steps:
+    - label: PUT Create_or_update_a_service_in_an_environment - Nominal Success
+      phase: action
+      request:
+        method: PUT
+        path: /api/v1/Environments/${environmentId}/services/${serviceId}
+        headers:
+          Accept: application/json
+          Content-Type: application/json
+        body: "{\n  \"properties\": {}\n}"
+      expect:
+        status: 200
+        content_type: application/json
+        contract_validation:
+          type: object
+          required: *id001
+          properties:
+            name:
+              type: string
+              nullable: true
+            services:
+              type: array
+              items:
+                type: object
+                required: *id002
+                properties:
+                  properties:
+                    type: object
+                    required: []
+                  id:
+                    type: string
+                    minLength: 1
+            id:
+              type: string
+              minLength: 1
+    - label: PUT Create_or_update_a_service_in_an_environment - Unauthorized access
+        (401)
+      phase: action
+      request:
+        method: PUT
+        path: /api/v1/Environments/${environmentId}/services/${serviceId}
+        headers:
+          Accept: application/json
+          Authorization: ''
+          Content-Type: application/json
+        body: "{\n  \"properties\": {}\n}"
+      expect:
+        status: 401
+        content_type: application/json
+    - label: PUT Create_or_update_a_service_in_an_environment - Forbidden access (403)
+      phase: action
+      request:
+        method: PUT
+        path: /api/v1/Environments/${environmentId}/services/${serviceId}
+        headers:
+          Accept: application/json
+          Content-Type: application/json
+        body: "{\n  \"properties\": {}\n}"
+      expect:
+        status: 403
+        content_type: application/json
+    - label: PUT Create_or_update_a_service_in_an_environment - Environment not found
+        (404)
+      phase: action
+      request:
+        method: PUT
+        path: /api/v1/Environments/${environmentId}/services/${serviceId}
+        headers:
+          Accept: application/json
+          Content-Type: application/json
+        body: "{\n  \"properties\": {}\n}"
+      expect:
+        status: 404
+        content_type: application/json
+    - label: 'PUT Create_or_update_a_service_in_an_environment - 400 Missing Body
+        Field: properties'
+      phase: action
+      request:
+        method: PUT
+        path: /api/v1/Environments/${environmentId}/services/${serviceId}
+        headers:
+          Accept: application/json
+          Content-Type: application/json
+        body: '{}'
+      expect:
+        status: 400
+        content_type: application/json
+  - name: Url management - Administrators - Delete_a_tenant
+    tags:
+    - contract
+    - api
+    - DELETE
+    prereqs:
+    - Authentification requise via token Bearer
+    steps:
+    - label: DELETE Delete_a_tenant - Nominal Success
+      phase: action
+      request:
+        method: DELETE
+        path: /api/v1/Tenants/${id}
+        headers:
+          Accept: application/json
+      expect:
+        status: 204
+        contract_validation:
+          type: integer
+    - label: DELETE Delete_a_tenant - Unauthorized access (401)
+      phase: action
+      request:
+        method: DELETE
+        path: /api/v1/Tenants/${id}
+        headers:
+          Accept: application/json
+          Authorization: ''
+      expect:
+        status: 401
+        content_type: application/json
+    - label: DELETE Delete_a_tenant - Forbidden access (403)
+      phase: action
+      request:
+        method: DELETE
+        path: /api/v1/Tenants/${id}
+        headers:
+          Accept: application/json
+      expect:
+        status: 403
+        content_type: application/json
+  - name: Url management - Readers - Retrieves_a_tenant_by_its_identifier
+    tags:
+    - contract
+    - api
+    - GET
+    prereqs:
+    - Authentification requise via token Bearer
+    steps:
+    - label: GET Retrieves_a_tenant_by_its_identifier - Nominal Success
+      phase: action
+      request:
+        method: GET
+        path: /api/v1/Tenants/${id}
+        headers:
+          Accept: application/json
+      expect:
+        status: 200
+        content_type: application/json
+        contract_validation:
+          type: object
+          required: &id003
+          - id
+          properties:
+            environmentId:
+              type: string
+              nullable: true
+            sicId:
+              type: string
+              nullable: true
+            name:
+              type: string
+              nullable: true
+            offer:
+              type: string
+              nullable: true
+            services:
+              type: array
+              nullable: true
+              items:
+                type: object
+                required: *id002
+                properties:
+                  properties:
+                    type: object
+                    required: []
+                  id:
+                    type: string
+                    minLength: 1
+            id:
+              type: string
+              minLength: 1
+    - label: GET Retrieves_a_tenant_by_its_identifier - Unauthorized access (401)
+      phase: action
+      request:
+        method: GET
+        path: /api/v1/Tenants/${id}
+        headers:
+          Accept: application/json
+          Authorization: ''
+      expect:
+        status: 401
+        content_type: application/json
+    - label: GET Retrieves_a_tenant_by_its_identifier - Forbidden access (403)
+      phase: action
+      request:
+        method: GET
+        path: /api/v1/Tenants/${id}
+        headers:
+          Accept: application/json
+      expect:
+        status: 403
+        content_type: application/json
+    - label: GET Retrieves_a_tenant_by_its_identifier - Environment not found (404)
+      phase: action
+      request:
+        method: GET
+        path: /api/v1/Tenants/${id}
+        headers:
+          Accept: application/json
+      expect:
+        status: 404
+        content_type: application/json
+  - name: Url management - Writers - Create_or_update_a_tenant
+    tags:
+    - contract
+    - api
+    - PUT
+    prereqs:
+    - Authentification requise via token Bearer
+    steps:
+    - label: PUT Create_or_update_a_tenant - Nominal Success
+      phase: action
+      request:
+        method: PUT
+        path: /api/v1/Tenants/${id}
+        headers:
+          Accept: application/json
+          Content-Type: application/json
+        body: '{}'
+      expect:
+        status: 200
+        content_type: application/json
+        contract_validation:
+          type: object
+          required: *id003
+          properties:
+            environmentId:
+              type: string
+              nullable: true
+            sicId:
+              type: string
+              nullable: true
+            name:
+              type: string
+              nullable: true
+            offer:
+              type: string
+              nullable: true
+            services:
+              type: array
+              nullable: true
+              items:
+                type: object
+                required: *id002
+                properties:
+                  properties:
+                    type: object
+                    required: []
+                  id:
+                    type: string
+                    minLength: 1
+            id:
+              type: string
+              minLength: 1
+    - label: PUT Create_or_update_a_tenant - Unauthorized access (401)
+      phase: action
+      request:
+        method: PUT
+        path: /api/v1/Tenants/${id}
+        headers:
+          Accept: application/json
+          Authorization: ''
+          Content-Type: application/json
+        body: '{}'
+      expect:
+        status: 401
+        content_type: application/json
+    - label: PUT Create_or_update_a_tenant - Forbidden access (403)
+      phase: action
+      request:
+        method: PUT
+        path: /api/v1/Tenants/${id}
+        headers:
+          Accept: application/json
+          Content-Type: application/json
+        body: '{}'
+      expect:
+        status: 403
+        content_type: application/json
+  - name: Url management - Readers - Retrieves_the_list_of_all_environments
+    tags:
+    - contract
+    - api
+    - GET
+    prereqs:
+    - Authentification requise via token Bearer
+    steps:
+    - label: GET Retrieves_the_list_of_all_environments - Nominal Success
+      phase: action
+      request:
+        method: GET
+        path: /api/v1/Environments
+        headers:
+          Accept: application/json
+      expect:
+        status: 200
+        content_type: application/json
+        contract_validation:
+          type: array
+          items:
+            type: object
+            required: *id001
+            properties:
+              name:
+                type: string
+                nullable: true
+              services:
+                type: array
+                items:
+                  type: object
+                  required: *id002
+                  properties:
+                    properties:
+                      type: object
+                      required: []
+                    id:
+                      type: string
+                      minLength: 1
+              id:
+                type: string
+                minLength: 1
+    - label: GET Retrieves_the_list_of_all_environments - Unauthorized Access (401)
+      phase: action
+      request:
+        method: GET
+        path: /api/v1/Environments
+        headers:
+          Accept: application/json
+          Authorization: ''
+      expect:
+        status: 401
+        content_type: application/json
+    - label: GET Retrieves_the_list_of_all_environments - Forbidden Access (403)
+      phase: action
+      request:
+        method: GET
+        path: /api/v1/Environments
+        headers:
+          Accept: application/json
+      expect:
+        status: 403
+        content_type: application/json
+  - name: Url management - Readers - Retrieves_the_list_of_all_tenants
+    tags:
+    - contract
+    - api
+    - GET
+    prereqs:
+    - Authentification requise via token Bearer
+    steps:
+    - label: GET Retrieves_the_list_of_all_tenants - Nominal Success
+      phase: action
+      request:
+        method: GET
+        path: /api/v1/Tenants
+        headers:
+          Accept: application/json
+      expect:
+        status: 200
+        content_type: application/json
+        contract_validation:
+          type: array
+          items:
+            type: object
+            required: *id003
+            properties:
+              environmentId:
+                type: string
+                nullable: true
+              sicId:
+                type: string
+                nullable: true
+              name:
+                type: string
+                nullable: true
+              offer:
+                type: string
+                nullable: true
+              services:
+                type: array
+                nullable: true
+                items:
+                  type: object
+                  required: *id002
+                  properties:
+                    properties:
+                      type: object
+                      required: []
+                    id:
+                      type: string
+                      minLength: 1
+              id:
+                type: string
+                minLength: 1
+    - label: GET Retrieves_the_list_of_all_tenants - Unauthorized Access (401)
+      phase: action
+      request:
+        method: GET
+        path: /api/v1/Tenants
+        headers:
+          Accept: application/json
+          Authorization: ''
+      expect:
+        status: 401
+        content_type: application/json
+    - label: GET Retrieves_the_list_of_all_tenants - Forbidden Access (403)
+      phase: action
+      request:
+        method: GET
+        path: /api/v1/Tenants
+        headers:
+          Accept: application/json
+      expect:
+        status: 403
+        content_type: application/json
