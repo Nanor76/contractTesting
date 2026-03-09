@@ -38,9 +38,7 @@ class ContractExpert:
         return self.definitions.get(schema_name)
 
     def _collect_required_from_composed(self, schema):
-        """Collecte les champs réellement requis d'un schéma, y compris via allOf/$ref.
-        - allOf: union de tous les required (tous les sous-schémas s'appliquent)
-        - oneOf/anyOf: intersection (seuls les champs requis dans TOUTES les branches)"""
+        """Collecte tous les champs requis d'un schéma, y compris via allOf et $ref."""
         if not schema:
             return []
         if "$ref" in schema:
@@ -51,66 +49,12 @@ class ContractExpert:
         if "allOf" in schema:
             for sub in schema["allOf"]:
                 required.extend(self._collect_required_from_composed(sub))
-        # oneOf/anyOf: intersection (champs requis dans TOUTES les branches)
+        # oneOf/anyOf: prendre les required du premier sous-schéma
         for composer in ["oneOf", "anyOf"]:
             if composer in schema and schema[composer]:
-                branch_requireds = []
-                for sub in schema[composer]:
-                    branch_requireds.append(set(self._collect_required_from_composed(sub)))
-                if branch_requireds:
-                    required.extend(set.intersection(*branch_requireds))
+                required.extend(self._collect_required_from_composed(schema[composer][0]))
                 break
         return list(set(required))
-
-    def _flatten_schema_to_object(self, rules):
-        """Aplatit un schéma (éventuellement composé allOf/oneOf/anyOf) en un schéma objet unique.
-        Retourne {"type": "object", "required": [...], "properties": {...}}
-        permettant un accès uniforme aux propriétés pour la génération de body et tests négatifs.
-        - allOf: merge toutes les properties, union des required
-        - oneOf/anyOf: merge toutes les properties (couverture maximale), intersection des required"""
-        if not rules:
-            return {"type": "object", "required": [], "properties": {}}
-
-        # Déjà un objet plat
-        if "composition" not in rules:
-            if rules.get("type") == "object" or "properties" in rules:
-                return {
-                    "type": "object",
-                    "required": list(rules.get("required", [])),
-                    "properties": dict(rules.get("properties", {}))
-                }
-            return {"type": "object", "required": [], "properties": {}}
-
-        comp = rules["composition"]
-        sub_schemas = rules.get("sub_schemas", [])
-
-        merged_props = {}
-        required_sets = []
-
-        for sub in sub_schemas:
-            if not sub:
-                continue
-            flat_sub = self._flatten_schema_to_object(sub)
-            merged_props.update(flat_sub.get("properties", {}))
-            # Ne compter que les branches qui exposent des propriétés
-            if flat_sub.get("properties"):
-                required_sets.append(set(flat_sub.get("required", [])))
-
-        if comp == "allOf":
-            # Union : tous les sous-schémas s'appliquent
-            effective_required = list(set().union(*required_sets)) if required_sets else []
-        else:
-            # oneOf/anyOf : intersection (seuls les champs requis dans TOUTES les branches)
-            if required_sets:
-                effective_required = list(set.intersection(*required_sets))
-            else:
-                effective_required = []
-
-        return {
-            "type": "object",
-            "required": effective_required,
-            "properties": merged_props
-        }
 
     def _parse_status_code(self, status_code):
         """Parse un code de statut, y compris les wildcards (2XX, 4XX, default)."""
@@ -132,16 +76,9 @@ class ContractExpert:
 
         for composer in ["allOf", "anyOf", "oneOf"]:
             if composer in schema:
-                sub_schemas = [self.extract_exhaustive_schema(s, depth + 1) for s in schema[composer]]
-                # Préserver les propriétés inline définies au même niveau que la composition
-                if "properties" in schema:
-                    inline_obj = {"type": "object", "required": schema.get("required", []), "properties": {}}
-                    for p_name, p_def in schema["properties"].items():
-                        inline_obj["properties"][p_name] = self.extract_exhaustive_schema(p_def, depth + 1)
-                    sub_schemas.append(inline_obj)
                 return {
                     "composition": composer,
-                    "sub_schemas": sub_schemas
+                    "sub_schemas": [self.extract_exhaustive_schema(s, depth + 1) for s in schema[composer]]
                 }
 
         rules = {"type": schema.get("type", "string")}
@@ -505,23 +442,14 @@ class ContractExpert:
         req_schema_rules = self.extract_exhaustive_schema(req_schema_raw) if req_schema_raw else None
         endpoint_required_body_fields = self.get_endpoint_required_fields(operation, req_schema_raw)
 
-        # Aplatir le schéma composé pour accès uniforme aux propriétés
-        flat_body_schema = self._flatten_schema_to_object(req_schema_rules) if req_schema_rules else None
-
         # Construire les règles du body nominal avec les champs endpoint-required
-        # Utilise le schéma aplati pour que generate_smart_example() produise
-        # un body correct même pour les compositions (allOf/oneOf/anyOf)
+        # (respecte requestBody.required = false => aucun champ requis)
         nominal_schema_rules = None
         if req_schema_rules:
-            if flat_body_schema and flat_body_schema.get("properties"):
-                nominal_schema_rules = copy.deepcopy(flat_body_schema)
+            nominal_schema_rules = copy.deepcopy(req_schema_rules)
+            # Ne remplacer "required" que pour les schémas objets, pas les compositions
+            if "composition" not in nominal_schema_rules:
                 nominal_schema_rules["required"] = endpoint_required_body_fields
-            elif "composition" not in req_schema_rules:
-                nominal_schema_rules = copy.deepcopy(req_schema_rules)
-                nominal_schema_rules["required"] = endpoint_required_body_fields
-            else:
-                # Composition sans propriétés extractibles : fallback original
-                nominal_schema_rules = copy.deepcopy(req_schema_rules)
 
         if VERBOSE:
             print(f"  [VERBOSE] {op_id}: body_schema={'yes' if req_schema_raw else 'no'}, "
@@ -599,18 +527,15 @@ class ContractExpert:
         # 4. TESTS NÉGATIFS : BODY (Exhaustif, sans limites artificielles)
         # ==========================================
         if req_schema_rules and method.upper() in ["POST", "PUT", "PATCH"]:
+            # Utiliser endpoint_required_body_fields (respecte requestBody.required)
+            # et non req_schema_rules["required"] directement
             required_fields = endpoint_required_body_fields
+            properties = req_schema_rules.get("properties", {})
 
-            # Utiliser le schéma aplati pour accéder aux propriétés
-            # même quand le schéma original est une composition
-            flat = flat_body_schema or {"type": "object", "required": [], "properties": {}}
-            properties = flat.get("properties", {})
-
-            # Générer un body COMPLET (toutes les propriétés) pour servir
-            # de base aux tests négatifs (on modifie ensuite un champ à la fois)
-            full_body_rules = copy.deepcopy(flat)
-            full_body_rules["required"] = list(properties.keys())
-            valid_body = self.generate_smart_example(full_body_rules)
+            # Construire le body nominal avec uniquement les champs endpoint-required
+            nominal_rules = copy.deepcopy(req_schema_rules)
+            nominal_rules["required"] = required_fields
+            valid_body = self.generate_smart_example(nominal_rules)
 
             # A. Body vide (seulement si le body a des champs requis à l'endpoint)
             if isinstance(valid_body, dict) and required_fields:

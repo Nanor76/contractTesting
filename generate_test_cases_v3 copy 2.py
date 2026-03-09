@@ -11,13 +11,6 @@ import yaml
 import argparse
 import re
 import copy
-from urllib.parse import urlparse
-
-try:
-    import exrex
-    HAS_EXREX = True
-except ImportError:
-    HAS_EXREX = False
 
 VERBOSE = False
 
@@ -37,91 +30,6 @@ class ContractExpert:
         schema_name = ref.split("/")[-1]
         return self.definitions.get(schema_name)
 
-    def _collect_required_from_composed(self, schema):
-        """Collecte les champs réellement requis d'un schéma, y compris via allOf/$ref.
-        - allOf: union de tous les required (tous les sous-schémas s'appliquent)
-        - oneOf/anyOf: intersection (seuls les champs requis dans TOUTES les branches)"""
-        if not schema:
-            return []
-        if "$ref" in schema:
-            resolved = self.resolve_ref(schema["$ref"])
-            return self._collect_required_from_composed(resolved) if resolved else []
-        required = list(schema.get("required", []))
-        # allOf: union de tous les required (tous les sous-schémas s'appliquent)
-        if "allOf" in schema:
-            for sub in schema["allOf"]:
-                required.extend(self._collect_required_from_composed(sub))
-        # oneOf/anyOf: intersection (champs requis dans TOUTES les branches)
-        for composer in ["oneOf", "anyOf"]:
-            if composer in schema and schema[composer]:
-                branch_requireds = []
-                for sub in schema[composer]:
-                    branch_requireds.append(set(self._collect_required_from_composed(sub)))
-                if branch_requireds:
-                    required.extend(set.intersection(*branch_requireds))
-                break
-        return list(set(required))
-
-    def _flatten_schema_to_object(self, rules):
-        """Aplatit un schéma (éventuellement composé allOf/oneOf/anyOf) en un schéma objet unique.
-        Retourne {"type": "object", "required": [...], "properties": {...}}
-        permettant un accès uniforme aux propriétés pour la génération de body et tests négatifs.
-        - allOf: merge toutes les properties, union des required
-        - oneOf/anyOf: merge toutes les properties (couverture maximale), intersection des required"""
-        if not rules:
-            return {"type": "object", "required": [], "properties": {}}
-
-        # Déjà un objet plat
-        if "composition" not in rules:
-            if rules.get("type") == "object" or "properties" in rules:
-                return {
-                    "type": "object",
-                    "required": list(rules.get("required", [])),
-                    "properties": dict(rules.get("properties", {}))
-                }
-            return {"type": "object", "required": [], "properties": {}}
-
-        comp = rules["composition"]
-        sub_schemas = rules.get("sub_schemas", [])
-
-        merged_props = {}
-        required_sets = []
-
-        for sub in sub_schemas:
-            if not sub:
-                continue
-            flat_sub = self._flatten_schema_to_object(sub)
-            merged_props.update(flat_sub.get("properties", {}))
-            # Ne compter que les branches qui exposent des propriétés
-            if flat_sub.get("properties"):
-                required_sets.append(set(flat_sub.get("required", [])))
-
-        if comp == "allOf":
-            # Union : tous les sous-schémas s'appliquent
-            effective_required = list(set().union(*required_sets)) if required_sets else []
-        else:
-            # oneOf/anyOf : intersection (seuls les champs requis dans TOUTES les branches)
-            if required_sets:
-                effective_required = list(set.intersection(*required_sets))
-            else:
-                effective_required = []
-
-        return {
-            "type": "object",
-            "required": effective_required,
-            "properties": merged_props
-        }
-
-    def _parse_status_code(self, status_code):
-        """Parse un code de statut, y compris les wildcards (2XX, 4XX, default)."""
-        s = str(status_code)
-        if s.isdigit():
-            return int(s)
-        # Wildcard: 2XX → 200, 4XX → 400, 5XX → 500
-        if len(s) == 3 and s[0].isdigit() and s[1:].upper() == "XX":
-            return int(s[0]) * 100
-        return None
-
     def extract_exhaustive_schema(self, schema, depth=0, max_depth=20):
         """Extrait TOUTES les contraintes de validation d'un schéma (V2)"""
         if not schema or depth > max_depth: return None
@@ -132,16 +40,9 @@ class ContractExpert:
 
         for composer in ["allOf", "anyOf", "oneOf"]:
             if composer in schema:
-                sub_schemas = [self.extract_exhaustive_schema(s, depth + 1) for s in schema[composer]]
-                # Préserver les propriétés inline définies au même niveau que la composition
-                if "properties" in schema:
-                    inline_obj = {"type": "object", "required": schema.get("required", []), "properties": {}}
-                    for p_name, p_def in schema["properties"].items():
-                        inline_obj["properties"][p_name] = self.extract_exhaustive_schema(p_def, depth + 1)
-                    sub_schemas.append(inline_obj)
                 return {
                     "composition": composer,
-                    "sub_schemas": sub_schemas
+                    "sub_schemas": [self.extract_exhaustive_schema(s, depth + 1) for s in schema[composer]]
                 }
 
         rules = {"type": schema.get("type", "string")}
@@ -175,10 +76,8 @@ class ContractExpert:
         
         t = rules.get("type", "string")
 
-        # --- GÉNÉRATION DE VALEURS INVALIDES ---
+        # --- GÉNÉRATION DE VALEURS INVALIDES (V1 logic) ---
         if use_invalid_values:
-            if "composition" in rules:
-                return "not_an_object"
             if rules.get("enum"): return "INVALID_ENUM_VALUE_NOT_IN_LIST"
             if t == "string":
                 fmt = rules.get("format")
@@ -186,7 +85,7 @@ class ContractExpert:
                 if fmt == "date-time": return "invalid-date"
                 if fmt == "email": return "not-an-email"
                 max_len = rules.get("maxLength", 1000)
-                return "x" * (max_len + 10)
+                return "x" * (max_len + 10) # Dépassement de capacité
             if t in ["integer", "number"]:
                 if "maximum" in rules: return rules["maximum"] + 1000
                 return -999999
@@ -195,99 +94,27 @@ class ContractExpert:
             if t == "object": return "not_an_object"
             return "invalid_value"
 
-        # --- GÉNÉRATION DE VALEURS VALIDES ---
-
-        # Schémas composés (allOf / oneOf / anyOf)
-        if "composition" in rules:
-            if rules["composition"] == "allOf":
-                merged = {}
-                for sub in rules.get("sub_schemas", []):
-                    if sub:
-                        sub_ex = self.generate_smart_example(sub)
-                        if isinstance(sub_ex, dict):
-                            merged.update(sub_ex)
-                return merged if merged else {}
-            elif rules["composition"] in ("oneOf", "anyOf"):
-                for sub in rules.get("sub_schemas", []):
-                    if sub:
-                        return self.generate_smart_example(sub)
-            return None
-
+        # --- GÉNÉRATION DE VALEURS VALIDES (V2 logic) ---
         if rules.get("enum"): return rules["enum"][0]
-
+        
         if t == "string":
             fmt = rules.get("format")
+            if fmt == "uuid": return "550e8400-e29b-41d4-a716-446655440000"
+            if fmt == "date-time": return "2026-03-09T12:00:00Z"
+            if fmt == "email": return "test@example.com"
+            if fmt == "uri" or fmt == "url": return "https://example.com/test"
+            if fmt == "date": return "2026-03-09"
+            if fmt == "ipv4": return "192.168.1.1"
+            if fmt == "ipv6": return "::1"
+            # pattern est une regex, pas une valeur valide : ne pas l'utiliser comme exemple
             min_len = rules.get("minLength", 0)
-            max_len = rules.get("maxLength")
-            pattern = rules.get("pattern")
-
-            format_examples = {
-                "uuid": "550e8400-e29b-41d4-a716-446655440000",
-                "date-time": "2026-03-09T12:00:00Z",
-                "email": "test@example.com",
-                "uri": "https://example.com/test",
-                "url": "https://example.com/test",
-                "date": "2026-03-09",
-                "ipv4": "192.168.1.1",
-                "ipv6": "::1",
-            }
-            if fmt in format_examples:
-                val = format_examples[fmt]
-                if max_len is not None and len(val) > max_len:
-                    val = val[:max_len]
-                return val
-
-            # Tenter de générer une valeur respectant le pattern (pip install exrex)
-            if pattern and HAS_EXREX:
-                try:
-                    val = exrex.getone(pattern)
-                    if max_len is not None and len(val) > max_len:
-                        val = val[:max_len]
-                    if len(val) < min_len:
-                        val = val + "a" * (min_len - len(val))
-                    return val
-                except Exception:
-                    pass  # Regex trop complexe, fallback ci-dessous
-
-            # Valeur générique respectant minLength ET maxLength
-            base = "test_val"
-            if min_len > len(base):
-                base = "a" * min_len
-            if max_len is not None and len(base) > max_len:
-                base = "a" * max(max_len, 1) if max_len >= 1 else ""
-            return base
-
-        if t in ["integer", "number"]:
-            val = rules.get("minimum", 1)
-            # Swagger 2.0: exclusiveMinimum est un booléen
-            exc_min = rules.get("exclusiveMinimum")
-            if exc_min is True and "minimum" in rules:
-                val = rules["minimum"] + 1
-            elif isinstance(exc_min, (int, float)):
-                # OpenAPI 3.x: exclusiveMinimum est une valeur numérique
-                val = exc_min + 1
-            # Respecter maximum / exclusiveMaximum
-            exc_max = rules.get("exclusiveMaximum")
-            if "maximum" in rules and val > rules["maximum"]:
-                val = rules["maximum"]
-            if exc_max is True and "maximum" in rules and val >= rules["maximum"]:
-                val = rules["maximum"] - 1
-            elif isinstance(exc_max, (int, float)) and val >= exc_max:
-                val = exc_max - 1
-            if t == "integer":
-                val = int(val)
-            return val
-
+            return "a" * max(min_len, 5) if min_len > 5 else f"test_val"
+        
+        if t in ["integer", "number"]: return rules.get("minimum", 1)
         if t == "boolean": return True
-
         if t == "array":
             item_ex = self.generate_smart_example(rules.get("items"))
-            min_items = rules.get("minItems", 1)
-            count = max(min_items, 1)
-            if item_ex is not None:
-                return [copy.deepcopy(item_ex) if isinstance(item_ex, (dict, list)) else item_ex for _ in range(count)]
-            return []
-
+            return [item_ex] if item_ex else []
         if t == "object":
             obj = {}
             props = rules.get("properties", {})
@@ -321,14 +148,13 @@ class ContractExpert:
     def get_endpoint_required_fields(self, operation, body_schema):
         """Retourne les champs réellement requis pour cet endpoint.
         Applique la sémantique OpenAPI 3.x: si requestBody.required = false,
-        aucun champ du body n'est requis à l'endpoint.
-        Collecte les required de tous les sous-schémas allOf/oneOf/anyOf."""
+        aucun champ du body n'est requis à l'endpoint."""
         if not body_schema:
             return []
         if "requestBody" in operation:
             if not operation["requestBody"].get("required", False):
                 return []
-        return self._collect_required_from_composed(body_schema)
+        return body_schema.get("required", [])
 
     def resolve_response_schema(self, resp):
         """Extrait et résout le schéma d'une réponse (OpenAPI 3.x & Swagger 2.0)"""
@@ -406,7 +232,7 @@ class ContractExpert:
         """Construit une étape de test individuelle complète"""
         self.stats["steps"] += 1
         jmeter_path = re.sub(r'\{([^}]+)\}', r'${\1}', path)
-        status_int = self._parse_status_code(status_code) or 200
+        status_int = int(status_code) if str(status_code).isdigit() else 200
         
         step = {
             "label": label,
@@ -505,23 +331,12 @@ class ContractExpert:
         req_schema_rules = self.extract_exhaustive_schema(req_schema_raw) if req_schema_raw else None
         endpoint_required_body_fields = self.get_endpoint_required_fields(operation, req_schema_raw)
 
-        # Aplatir le schéma composé pour accès uniforme aux propriétés
-        flat_body_schema = self._flatten_schema_to_object(req_schema_rules) if req_schema_rules else None
-
         # Construire les règles du body nominal avec les champs endpoint-required
-        # Utilise le schéma aplati pour que generate_smart_example() produise
-        # un body correct même pour les compositions (allOf/oneOf/anyOf)
+        # (respecte requestBody.required = false => aucun champ requis)
         nominal_schema_rules = None
         if req_schema_rules:
-            if flat_body_schema and flat_body_schema.get("properties"):
-                nominal_schema_rules = copy.deepcopy(flat_body_schema)
-                nominal_schema_rules["required"] = endpoint_required_body_fields
-            elif "composition" not in req_schema_rules:
-                nominal_schema_rules = copy.deepcopy(req_schema_rules)
-                nominal_schema_rules["required"] = endpoint_required_body_fields
-            else:
-                # Composition sans propriétés extractibles : fallback original
-                nominal_schema_rules = copy.deepcopy(req_schema_rules)
+            nominal_schema_rules = copy.deepcopy(req_schema_rules)
+            nominal_schema_rules["required"] = endpoint_required_body_fields
 
         if VERBOSE:
             print(f"  [VERBOSE] {op_id}: body_schema={'yes' if req_schema_raw else 'no'}, "
@@ -599,18 +414,15 @@ class ContractExpert:
         # 4. TESTS NÉGATIFS : BODY (Exhaustif, sans limites artificielles)
         # ==========================================
         if req_schema_rules and method.upper() in ["POST", "PUT", "PATCH"]:
+            # Utiliser endpoint_required_body_fields (respecte requestBody.required)
+            # et non req_schema_rules["required"] directement
             required_fields = endpoint_required_body_fields
+            properties = req_schema_rules.get("properties", {})
 
-            # Utiliser le schéma aplati pour accéder aux propriétés
-            # même quand le schéma original est une composition
-            flat = flat_body_schema or {"type": "object", "required": [], "properties": {}}
-            properties = flat.get("properties", {})
-
-            # Générer un body COMPLET (toutes les propriétés) pour servir
-            # de base aux tests négatifs (on modifie ensuite un champ à la fois)
-            full_body_rules = copy.deepcopy(flat)
-            full_body_rules["required"] = list(properties.keys())
-            valid_body = self.generate_smart_example(full_body_rules)
+            # Construire le body nominal avec uniquement les champs endpoint-required
+            nominal_rules = copy.deepcopy(req_schema_rules)
+            nominal_rules["required"] = required_fields
+            valid_body = self.generate_smart_example(nominal_rules)
 
             # A. Body vide (seulement si le body a des champs requis à l'endpoint)
             if isinstance(valid_body, dict) and required_fields:
@@ -746,21 +558,11 @@ def main():
                 all_sequences.append(expert.generate_sequence(path, method, op))
                 expert.stats["operations"] += 1
 
-    # Extraire la config serveur (OpenAPI 3.x servers OU Swagger 2.0 host/basePath/schemes)
-    if "servers" in data and data["servers"]:
-        server_url = data["servers"][0].get("url", "https://api.example.com/v1")
-        # Résoudre les variables serveur ({var} → valeur par défaut)
-        for var_name, var_def in data["servers"][0].get("variables", {}).items():
-            server_url = server_url.replace("{" + var_name + "}", var_def.get("default", ""))
-        parsed = urlparse(server_url)
-        swagger_protocol = parsed.scheme or "https"
-        swagger_host = parsed.netloc or "api.example.com"
-        swagger_basepath = parsed.path or "/"
-    else:
-        swagger_host = data.get("host", "api.example.com")
-        swagger_basepath = data.get("basePath", "/v1")
-        swagger_schemes = data.get("schemes", ["https"])
-        swagger_protocol = swagger_schemes[0] if swagger_schemes else "https"
+    # Extraire host/basePath/schemes depuis le swagger si disponibles
+    swagger_host = data.get("host", "api.example.com")
+    swagger_basepath = data.get("basePath", "/v1")
+    swagger_schemes = data.get("schemes", ["https"])
+    swagger_protocol = swagger_schemes[0] if swagger_schemes else "https"
 
     # Format Riche avec config extraite du swagger
     final_output = {
